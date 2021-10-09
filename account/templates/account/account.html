@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action active" aria-current="true">
+                  Account Settings
+                </a>
+                <a href="{% url 'account:password_change' %}" class="list-group-item list-group-item-action">Change Password</a>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+{% endblock %}

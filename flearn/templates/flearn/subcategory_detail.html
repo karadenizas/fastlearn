@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sub Categories{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="alert alert-secondary">
+            <h3 class="text-dark text-center fw-bold">Courses for {{sub_category}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-group">
+            {% for item in courses %}
+            <div class="col-4">
+                <div class="card">
+                    <div class="text-center">
+                        <img src="{{ item.image.url }}" width="150" height="150">
+                    </div>
+                  <div class="card-body">
+                    <h5 class="card-title"><a style="text-decoration: none;" class="link-dark" href="{% url 'flearn:course_detail' item.slug %}">{{item.name}}</a></h5>
+                    <p class="card-text">{{ item.description | truncatewords:'17' }}</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class=""><h5 class="text-center">$ {{ item.price }}</h5></small>
+                  </div>
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

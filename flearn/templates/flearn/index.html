@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FastLearn{% endblock %}
+
+{% block content %}
+<div class="alert alert-dark" role="alert">
+    <h2 class="text-dark text-center fw-bold">WELCOME TO FASTLEARN!</h2>
+    <p class="text-center text-dark">FastLearn is an e-learning platform. In many different categories take courses from the best instructors!</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="alert alert-secondary">
+                <h3 class="text-dark text-center fw-bold"><a href="{% url 'flearn:all_categories' %}" style="text-decoration: none;" class="link-dark">All Categories</a></h3>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="alert alert-secondary">
+                <h3 class="text-dark text-center fw-bold"><a href="#" style="text-decoration: none;" class="link-dark">All Courses</a></h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-group">
+            {% for item in category %}
+            <div class="card">
+                <div class="text-center">
+                    <img src="{{ item.image.url }}" width="150" height="150">
+                </div>
+              <div class="card-body">
+                <h5 class="card-title"><a style="text-decoration: none;" class="link-dark" href="{% url 'flearn:subcategory_detail' item.slug%}">{{item.name}}</a></h5>
+                <p class="card-text">{{ item.description | truncatewords:'17' }}</p>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="card-group">
+            {% for item in category_business %}
+            <div class="card">
+                <div class="text-center">
+                    <img src="{{ item.image.url }}" width="150" height="150">
+                </div>
+              <div class="card-body">
+                <h5 class="card-title"><a style="text-decoration: none;" class="link-dark" href="{% url 'flearn:subcategory_detail' item.slug%}">{{item.name}}</a></h5>
+                <p class="card-text">{{ item.description | truncatewords:'17' }}</p>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

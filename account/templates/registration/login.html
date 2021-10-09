@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+  <div class="row">
+    <div class="alert alert-dark" role="alert">
+      <h2 class="text-dark text-center fw-bold">Login to FastLearn</h2>
+    </div>
+  </div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+          <form method="POST">
+            <div class="mb-3">
+              {{ form.as_p }}
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">Login</button>
+                {% csrf_token %}
+              </div>
+          </form>
+          <br>
+          <p><a href="{% url 'account:password_reset' %}">Forgotten your password?</a></p>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+{% endblock %}

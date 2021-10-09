@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register Done{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card w-75">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Your registration is successfull!</h5>
+                  <p class="card-text text-center">Press login to continue.</p>
+                  <div class="text-center">
+                    <a href="{% url 'account:login' %}" class="btn btn-primary">Login</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+{% endblock %}
