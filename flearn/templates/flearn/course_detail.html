@@ -23,7 +23,7 @@
                     </div>
                     <br>
                   <p class="card-text">{{ course.description }}</p>
-                  <a href="#" class="btn btn-primary">Buy Now</a>
+                  <a href="{% url 'payment:process' course.id %}" class="btn btn-primary">Buy Now</a>
                 </div>
                 <div class="card-footer">
                   $ {{ course.price }}
