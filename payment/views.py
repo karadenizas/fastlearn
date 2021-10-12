@@ -1,11 +1,12 @@
+import braintree
 from braintree import client_token
 from django.http.response import HttpResponse
-from django.shortcuts import render, redirect, get_list_or_404
-import braintree
+from django.shortcuts import render, redirect
 from django.conf import settings
 from .models import PurchasedCourse
 from account.models import MyCourse
 from flearn.models import Course
+from .tasks import payment_success
 
 
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
@@ -30,6 +31,10 @@ def payment_process(request, id):
         })
         if result.is_success:
             my_course.student.add(user)
+            course = course.name
+            user = user.username
+            user_mail = request.user.email
+            payment_success.delay(course, user, user_mail)
             return redirect('payment:done')
         else:
             return redirect('payment:canceled')
