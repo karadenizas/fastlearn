@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Watch{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="alert alert-secondary">
+                <h3 class="text-dark text-center fw-bold">{{ course }}</h3>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        {% for video in videos %}
+        <div class="card mb-3">
+            <video class="card-img-top" controls>
+                <source src="{{ video.video.url }}" type="video/mp4">
+            </video>
+            <div class="card-body">
+              <h5 class="card-title">{{ video.name }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

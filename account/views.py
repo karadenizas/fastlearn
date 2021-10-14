@@ -1,5 +1,8 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from .forms import UserRegistrationForm
+from .models import MyCourse
+from flearn.models import Video
 
 
 def register(request):
@@ -22,3 +25,26 @@ def register(request):
 
 def account(request):
     return render(request, 'account/account.html')
+
+
+def my_courses(request, course=None):
+    if course:
+        user = request.user
+        course = MyCourse.objects.filter(student=user).get(course__name=course)
+        videos = course.course.videos.all()
+        context = {
+            'course': course,
+            'videos': videos,
+        }
+        return render(request, 'account/watch_course.html', context)
+
+    else:
+        user = request.user
+        my_courses = MyCourse.objects.filter(student=user)
+        #my_videos = 
+        #return HttpResponse(my_videos)
+        context = {
+            'my_courses': my_courses,
+            #'my_videos': my_videos
+        }
+        return render(request, 'account/mycourses.html', context)

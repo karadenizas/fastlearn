@@ -21,4 +21,6 @@ urlpatterns = [
 
     path('', views.account, name='account'),
     path('register/', views.register, name='register'),
+    path('mycourses/', views.my_courses, name='my_courses'),
+    path('watch/<course>/', views.my_courses, name='course_watch'),
 ]

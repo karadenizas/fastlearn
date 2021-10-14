@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="alert alert-secondary">
+                <h3 class="text-dark text-center fw-bold">My Courses</h3>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        {% for item in my_courses %}
+        <div class="col-4">
+            <div class="card">
+                <div class="text-center">
+                    <img src="{{ item.course.image.url }}" width="150" height="150">
+                </div>
+              <div class="card-body">
+                <h5 class="card-title"><a style="text-decoration: none;" class="link-dark" href="#">{{item.name}}</a></h5>
+                <p class="card-text">{{ item.course.description | truncatewords:'17' }}</p>
+              </div>
+              <div class="card-footer text-center">
+                <a href="{% url 'account:course_watch' item.course %}" class="btn btn-primary">Watch Now</a>
+            </div>
+            </div>
+            <br>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
