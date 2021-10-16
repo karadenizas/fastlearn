@@ -16,7 +16,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class Course(admin.ModelAdmin):
-    list_display = ['name', 'sub_category', 'slug', 'price']
+    list_display = ['name', 'instructor', 'sub_category', 'slug', 'price']
     prepopulated_fields = {'slug': ('name',)}
 
 
