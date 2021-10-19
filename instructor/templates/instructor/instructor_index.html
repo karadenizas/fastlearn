@@ -15,6 +15,10 @@
         <div class="col-2"></div>
     </div>
     <div class="row">
+        <button type="button" class="btn btn-success"><a href="{% url 'instructor:create_course' %}" style="text-decoration: none;" class="link-light"><h4>Create a New Course</h4></a></button>
+    </div>
+    <br>
+    <div class="row">
         {% for item in my_courses %}
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
@@ -26,7 +30,10 @@
                   <h5 class="card-title">{{ item }}</h5>
                   <p class="card-text">{{ item.description | truncatewords:10 }}</p>
                   <button type="button" class="btn btn-secondary"><a href="{% url 'instructor:course_edit' item %}" style="text-decoration: none;" class="link-light">Edit Course</a></button>
-                  <button type="button" class="btn btn-secondary"><a href="#" style="text-decoration: none;" class="link-light">Detail</a></button>
+                  <button type="button" class="btn btn-secondary"><a href="{% url 'instructor:video_edit' item  %}" style="text-decoration: none;" class="link-light">Edit Videos</a></button>
+                  <form method="POST">
+                    <button type="button" class="btn btn-secondary"><a href="{% url 'instructor:delete_course' item.slug %}" style="text-decoration: none;" class="link-light">Delete</a></button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -34,7 +41,4 @@
         {% endfor %}
     </div>
 </div>
-{% for item in my_courses %}
-{{ item }}
-{% endfor %}
 {% endblock %}

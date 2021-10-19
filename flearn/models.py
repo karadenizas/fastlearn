@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+import itertools
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
@@ -48,6 +51,16 @@ class Course(models.Model):
     def absolute_get_url(self):
         return reverse('flearn:course_detail', args=[self.slug])
 
+    def save(self):
+        if not self.id:
+            self.slug = slugify(self.name)
+            
+            for slug_id in itertools.count(1):
+                if not Course.objects.filter(slug=self.slug).exists():
+                    break
+                self.slug = '%s-%d' % (self.slug, slug_id)
+
+        super(Course, self).save()
 
 class Video(models.Model):
     course = models.ForeignKey(Course, related_name='videos',

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import fields, widgets
-from flearn.models import Course
+from flearn.models import Course, Video
 
 
 class CourseEditForm(forms.ModelForm):

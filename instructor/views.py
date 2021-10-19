@@ -1,9 +1,15 @@
+from django import http
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import permission_required, login_required
 from django.http import HttpResponse
-from flearn.models import Course
-from django.contrib.auth.models import User
+from flearn.models import Course, Video
 from .forms import CourseEditForm
+from django.forms import modelformset_factory
+from django.views.generic.edit import CreateView, DeleteView
+from django.contrib.auth.mixins import (LoginRequiredMixin, 
+                                        PermissionRequiredMixin)
+from django import forms
+from django.urls import reverse_lazy
 
 
 @login_required
@@ -54,3 +60,60 @@ def edit(request, course):
         'form': form,
     }
     return render(request, 'instructor/course_edit.html', context)
+
+
+
+@login_required
+@permission_required(perm=('flearn.add_course',
+                     'flearn.change_course',
+                     'flearn.delete_course',
+                     'flearn.view_course'), raise_exception=True)
+def video_edit(request, course):
+    user = request.user
+    if user == Course.objects.get(name=course).instructor:
+        ArticleFormset = modelformset_factory(Video, fields=('name', 'video'), extra=0)
+        formset = ArticleFormset(queryset=Video.objects.filter(course__name=course))
+        if request.method == "POST":
+            formset = ArticleFormset(request.POST, request.FILES)
+            if formset.is_valid():
+                formset.save()
+                return redirect('instructor:instructor')
+        context = {
+            'formset': formset,
+        }
+        return render(request, 'instructor/video_edit.html', context)
+    else:
+        return redirect('flearn:index')
+
+
+
+class CreateCourseView(LoginRequiredMixin,
+                       PermissionRequiredMixin,
+                       CreateView):
+    login_url = 'login'
+    permission_required = ('flearn.add_course',
+                           'flearn.change_course',
+                           'flearn.delete_course',
+                           'flearn.view_course')
+    model = Course
+    fields = ['sub_category', 'name', 'image', 'instructor', 'description', 'price']
+    template_name = 'instructor/course_create.html'
+    success_url = '/instructor/'
+    
+    def get_form_kwargs(self):
+        return super().get_form_kwargs()
+
+    def get_form(self, form_class=None):
+        form = super(CreateCourseView, self).get_form(form_class)
+        form.fields['instructor'].widget = forms.HiddenInput()
+        return form
+
+    def get_initial(self, *args, **kwargs):
+        initial = super().get_initial()
+        initial['instructor'] = self.request.user
+        return initial
+
+
+class DeleteCourseView(CreateCourseView, DeleteView):
+    model = Course
+    template_name = 'instructor/delete.html'
